@@ -45,7 +45,8 @@ contract Token is ERC20 {
 	// Create an ammount of new Tokens for specified address (internal only)
     function _mint(address _account, uint256 _ammount) internal returns (bool) {
         if (isCapped) require((tokenSupply + _ammount) <= tokenCap);
-
+	
+	tokenSupply = tokenSupply.add(_ammount);
         accountBalances[_account] = accountBalances[_account].add(_ammount);
         emit Mint(_account, _ammount);
 
@@ -55,7 +56,8 @@ contract Token is ERC20 {
 	// Destroy an ammount of Token from specified address (internal only)
     function _burn(address _account, uint256 _ammount) internal returns (bool) {
         require((tokenSupply - _ammount) >= 0);
-
+	
+	tokenSupply = tokenSupply.sub(_ammount);
         accountBalances[_account] = accountBalances[_account].sub(_ammount);
         emit Burn(_account, _ammount);
 
